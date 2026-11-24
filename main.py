@@ -16,9 +16,14 @@ HOROSCOPE = (
 
 
 def check(text):
-    """The house gate: UTF-8 text of 1 to 200 characters, not only whitespace."""
+    """The house gate: UTF-8 text of 1 to 200 characters, not only whitespace.
+
+    The entry is one line, so an embedded newline fails the check too.
+    """
     if not text or text != text.strip():
         raise ValueError("horoscope must be non-empty with no surrounding whitespace")
+    if "\n" in text or "\r" in text:
+        raise ValueError("horoscope must be a single line")
     if len(text) > 200:
         raise ValueError(f"horoscope is {len(text)} characters, over the 200 limit")
     text.encode("utf-8")
